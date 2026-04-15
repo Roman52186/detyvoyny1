@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Война и Дети | Малолетние узники фашизма | Саратовское отделение БМУ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #05070a;
+            color: #eceff4;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Динамический фон с частицами */
+        .bg-cinematic {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 20%, #1a1410, #030303);
+            z-index: -3;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(2px 2px at 20px 30px, #dbb42c, rgba(0,0,0,0)),
+                              radial-gradient(1px 1px at 70px 150px, #f5e2a4, rgba(0,0,0,0));
+            background-size: 200px 200px, 150px 150px;
+            background-repeat: repeat;
+            opacity: 0.25;
+            pointer-events: none;
+            z-index: -2;
+            animation: floatParticles 80s linear infinite;
+        }
+
+        @keyframes floatParticles {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 400px 400px, 300px 300px; }
+        }
+
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/black-scales.png');
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.8rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Герой с анимацией */
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            padding-bottom: 2rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #e6b422, #f5e7a4, #e6b422, transparent);
+            border-radius: 3px;
+        }
+
+        .main-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5.5rem;
+            font-weight: 700;
+            letter-spacing: 5px;
+            background: linear-gradient(135deg, #fdf4d8 0%, #e6b422 30%, #f5e2a4 70%, #b8860b 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(230,180,34,0.3);
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .main-title::before {
+            content: '✧';
+            font-size: 2rem;
+            color: #e6b422;
+            position: absolute;
+            left: -40px;
+            top: 20px;
+            opacity: 0.6;
+        }
+
+        .main-title::after {
+            content: '✧';
+            font-size: 2rem;
+            color: #e6b422;
+            position: absolute;
+            right: -40px;
+            top: 20px;
+            opacity: 0.6;
+        }
+
+        .subhead {
+            font-size: 1.2rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            color: #e6ce92;
+            margin-bottom: 1rem;
+        }
+
+        .memory-line {
+            font-style: italic;
+            font-weight: 300;
+            max-width: 750px;
+            margin: 1.5rem auto 0;
+            font-size: 1rem;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(8px);
+            padding: 0.8rem 1.8rem;
+            border-radius: 60px;
+            border-left: 3px solid #e6c87a;
+            border-right: 3px solid #e6c87a;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Сетка карточек с анимацией */
+        .grid-people {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .person-card {
+            background: rgba(15, 18, 28, 0.75);
+            backdrop-filter: blur(16px);
+            border-radius: 40px;
+            border: 1px solid rgba(219, 180, 68, 0.3);
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            cursor: pointer;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.6);
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: cardAppear 0.6s forwards;
+            animation-delay: calc(var(--order, 0) * 0.05s);
+        }
+
+        @keyframes cardAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .person-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: #e6c45e;
+            box-shadow: 0 35px 50px -15px black, 0 0 0 2px rgba(230,196,94,0.4);
+            background: rgba(22, 26, 40, 0.9);
+        }
+
+        .card-img-place {
+            height: 280px;
+            background: linear-gradient(145deg, #10131f, #07090f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img-place img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease, filter 0.4s ease;
+        }
+
+        .person-card:hover .card-img-place img {
+            transform: scale(1.05);
+            filter: brightness(1.05);
+        }
+
+        .photo-stub {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: repeating-linear-gradient(45deg, #1a1f2e, #1a1f2e 20px, #121624 20px, #121624 40px);
+        }
+
+        .photo-stub i {
+            font-size: 4rem;
+            margin-bottom: 0.8rem;
+            color: #c9aa44;
+            text-shadow: 0 0 10px rgba(201,170,68,0.5);
+        }
+
+        .card-content {
+            padding: 1.6rem;
+        }
+
+        .card-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #f5e2a0;
+            margin-bottom: 0.3rem;
+            line-height: 1.2;
+        }
+
+        .card-years {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #b9bbbe;
+            border-left: 3px solid #e6b422;
+            padding-left: 10px;
+            margin-bottom: 0.8rem;
+        }
+
+        .card-badge {
+            display: inline-block;
+            background: rgba(219,180,68,0.2);
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #f5dc8c;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-detail {
+            margin-top: 1.2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #e6b422;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Модальное окно премиум */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(3, 3, 8, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            overflow-y: auto;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 1100px;
+            width: 92%;
+            background: #0f111e;
+            border-radius: 60px;
+            margin: 2rem auto;
+            position: relative;
+            border: 1px solid rgba(219, 180, 68, 0.6);
+            box-shadow: 0 40px 70px rgba(0,0,0,0.9), 0 0 0 8px rgba(219,180,68,0.15);
+            animation: modalZoom 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        @keyframes modalZoom {
+            from {
+                opacity: 0;
+                transform: scale(0.92);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+            border-bottom: 1px solid rgba(219,180,68,0.3);
+        }
+
+        .modal-header h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #f3e2b0;
+        }
+
+        .close-modal {
+            font-size: 2.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #aaacb5;
+            transition: 0.2s;
+        }
+
+        .close-modal:hover {
+            color: #e6b422;
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 2rem 2rem 2.5rem;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .photo-area {
+            flex: 1.2;
+            min-width: 260px;
+            background: #080b12;
+            border-radius: 48px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(230,196,94,0.5);
+            box-shadow: 0 15px 25px -10px black;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            aspect-ratio: 1 / 1.2;
+            background: linear-gradient(135deg, #191e2c, #080b12);
+            border-radius: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 36px;
+        }
+
+        .photo-caption {
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            color: #a6a9b8;
+            letter-spacing: 1px;
+        }
+
+        .info-area {
+            flex: 2.5;
+        }
+
+        .name-detail {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #f7e6b5;
+            border-left: 6px solid #e6b422;
+            padding-left: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .detail-bio {
+            margin-top: 1.2rem;
+            background: rgba(0, 0, 0, 0.55);
+            padding: 1.6rem;
+            border-radius: 36px;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #eef2f7;
+            backdrop-filter: blur(5px);
+            border-left: 3px solid #e6b422;
+        }
+
+        .detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .meta-tag {
+            background: #1a1f30;
+            padding: 0.35rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #eedd99;
+            border: 0.5px solid #a8882a;
+        }
+
+        footer {
+            margin-top: 5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            border-top: 1px solid #2a2e42;
+            padding-top: 2rem;
+        }
+
+        @media (max-width: 780px) {
+            .main-title { font-size: 2.8rem; letter-spacing: 2px; }
+            .main-title::before, .main-title::after { display: none; }
+            .subhead { letter-spacing: 4px; font-size: 0.7rem; }
+            .container { padding: 1rem; }
+            .modal-body { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-cinematic"></div>
+<div class="particles"></div>
+<div class="noise"></div>
+<div class="container">
+    <div class="hero">
+        <div class="main-title">ВОЙНА И ДЕТИ</div>
+        <div class="subhead">Бывшие малолетние узники фашистских концлагерей</div>
+        <div class="memory-line">
+            <i class="fas fa-fire"></i> «Пусть пережитое нами уйдет в прошлое и никогда не повторится» <i class="fas fa-dove"></i>
+        </div>
+    </div>
+
+    <div id="personsGrid" class="grid-people"></div>
+    
+</div>
+
+<div id="personModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-scroll"></i> Живая история</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBodyContainer"></div>
+    </div>
+</div>
+
+<script>
+    const personsData = [
+        { id: "bondarenko", fullName: "Бондаренко Владимир Александрович", born: "28 февраля 1935, Белоруссия", status: "узник концлагеря «Азарии»", 
+          memory: "С 1943 по май 1944 в немецком плену. Член областного совета БМУ. Высшее образование, работает поныне.", extra: "Член областного совета БМУ" },
+        { id: "gundobina", fullName: "Гундобина (Солдатенкова) Елена Федотовна", born: "25 января 1935, Харьков", status: "узница концлагерей Субачус-37 и Алитус", 
+          memory: "Сразу в плен: лагеря в Вильнюсе и Литве. Освобождена в 1944, переезд в Саратов. Главный бухгалтер отделения БМУ, член Областного Совета, патриотическая работа в школах.", extra: "Награждена медалью «Ветеран труда»" },
+        { id: "ermakov", fullName: "Ермаков Евгений Тимофеевич", born: "1938, Брянская обл.", status: "узник концлагеря №130", 
+          memory: "В июне 1943 угнан в концлагерь №130 в Рославль. Семья преследовалась за связь с партизанами.", extra: "" },
+        { id: "ermakova", fullName: "Ермакова Александра Ивановна", born: "1935, Брянская обл.", status: "узница концлагеря №130 (Рославль)", 
+          memory: "11 июня 1943 года угнана фашистами в концлагерь №130 для советских военнопленных. Нечеловеческие условия, ревматизм, инвалидность. «Пусть грядущие поколения знают правду о войне».", extra: "Автор цитаты" },
+        { id: "zhuk", fullName: "Жук Иван Иванович", born: "16 декабря 1937, Черниговская обл.", status: "узник лагеря Раурис (Австрия)", 
+          memory: "В июне 1943 угнан с матерью в Австрию, лагерь Раурис, освобождён войсками США. Член областного совета БМУ и куратор Ленинского района Саратова.", extra: "" },
+        { id: "kamardina", fullName: "Камардина (Белоусова) Тамара Михайловна", born: "1 октября 1937, Калининская обл.", status: "узница лагерей Эстонии, Польши, Германии", 
+          memory: "Была в концлагере «Руссельсхайм». Освободили американцы. Окончила медицинское училище, работала медсестрой.", extra: "Ленинградское мед. училище" },
+        { id: "lototskaya", fullName: "Лотоцкая Сима Марковна", born: "20 сентября 1939", status: "узник концлагеря «Печёра» (Украина)", 
+          memory: "С 1942 по 1944 на оккупированной территории. Помню бомбёжку, раненую сестру. После войны поклялась: мои дети не узнают голода и холода. Инженер-строитель, 25 лет на космодроме «Байконур».", extra: "Отличник военного строительства" },
+        { id: "lotz", fullName: "Лотц (Тарханова) Эльвира Сергеевна", born: "21 июня 1940, Саратов", status: "узник концлагерей Литвы и Германии", 
+          memory: "22 июня 1941 года с мамой попали в плен. Концлагерь Кретинга «Димитравская» (Литва). В 1943 вывезли в Германию. В 1945 освобождены Советской Армией. Имею среднее медицинское образование, работаю медсестрой. Куратор Союза БМУ от Октябрьского района Саратова.", extra: "Куратор Союза БМУ" },
+        { id: "miheeva", fullName: "Михеева (Чалова) Валентина Васильевна", born: "11 июля 1938, Сталинград", status: "узница Австрии, лагерь Симбург-Сербик", 
+          memory: "Угнана немцами вместе с семьёй в Австрию, город Симбург-Сербик, находилась с 28 октября 1942 по 9 мая 1945. Вернулись в Сталинград 20 июня 1945. Член областного совета БМУ, куратор Леснинского района.", extra: "Член областного совета БМУ" },
+        { id: "petrova_kiseleva", fullName: "Петрова (Киселева) Тамара Васильевна", born: "30 марта 1936, Саратовская обл.", status: "активист БМУ, член Бюро", 
+          memory: "Член Совета и Бюро Саратовского отделения. Организует встречи со школьниками, в библиотеках, центрах реабилитации. Отмечена знаком «Фронтовик», участник парада Победы.", extra: "Депутат горсовета 4 созывов" },
+        { id: "reshetova", fullName: "Решетова (Тюрина) М.В.", born: "5 июня 1932, Орловская обл.", status: "узница, была в заложниках", 
+          memory: "Осенью 1941 немецкие захватчики оккупировали село. В марте 1943 фашисты взяли нас в заложники. В декабре 1943 освободили советские войска. Позже окончила школу, два ВУЗа, более 30 лет преподавателем.", extra: "Отмечена юбилейными медалями" },
+        { id: "rodina", fullName: "Родина (Хуторская) Ада Викторовна", born: "1937, Брянщина", status: "узник лагеря смерти «Алитус»", 
+          memory: "В 5 лет вывезена в концлагерь «Алитус» в Литве. «Рыжая бестия стегала детей плеткой с хохотом». Председатель Саратовского регионального совета БМУ, награждена Орденом Дружбы.", extra: "Председатель Саратовского отделения БМУ" },
+        { id: "stepanischeva", fullName: "Степанищева Тамара Петровна", born: "1939, Воронеж", status: "узница лагеря в Воронеже", 
+          memory: "Летом 1942 немцы заняли Воронеж, трёхлетней оказалась с мамой в концлагере. Освобождена в январе 1943. Работала на почте, инвалид 2 группы.", extra: "Инвалид 2 группы" },
+        { id: "tsytsura", fullName: "Цыцура (Ведина) Радиль Марковна", born: "30 сентября 1935, Казахстан", status: "узница, пасла гусей в Пруссии", 
+          memory: "Отец — начальник погранпоста. 22 июня 1941 попали в плен, оказались в тюрьме г. Ломжи. Вывезли в Восточную Пруссию. Мама работала у Бауэра, я пасла гусей. Освободила Советская Армия в 1945.", extra: "Член областного совета БМУ" }
+    ];
+
+    function renderGrid() {
+        const grid = document.getElementById('personsGrid');
+        grid.innerHTML = '';
+        personsData.forEach((person, idx) => {
+            const card = document.createElement('div');
+            card.className = 'person-card';
+            card.style.setProperty('--order', idx);
+            const imgHtml = `<img src="photos/${person.id}.png" alt="${person.fullName}" style="width:100%; height:100%; object-fit:cover;" onerror="this.style.display='none'; this.parentElement.innerHTML = \`<div class='photo-stub'><i class='fas fa-portrait'></i><span>ФОТО</span><span style='font-size:0.6rem; margin-top:4px;'>${person.fullName.split(' ')[0]}</span></div>\`;">`;
+            card.innerHTML = `
+                <div class="card-img-place">${imgHtml}</div>
+                <div class="card-content">
+                    <div class="card-name">${person.fullName}</div>
+                    <div class="card-years">${person.born}</div>
+                    <div class="card-badge"><i class="fas fa-campground"></i> ${person.status.substring(0, 55)}</div>
+                    <div class="btn-detail">Память жива <i class="fas fa-arrow-right"></i></div>
+                </div>
+            `;
+            card.addEventListener('click', () => openModal(person));
+            grid.appendChild(card);
+        });
+    }
+
+    function openModal(person) {
+        const modal = document.getElementById('personModal');
+        const modalBody = document.getElementById('modalBodyContainer');
+        let memoryHtml = person.memory.replace(/\n/g, '<br>');
+        let extraHtml = person.extra ? `<div class="meta-tag"><i class="fas fa-medal"></i> ${person.extra}</div>` : '';
+        const photoHtml = `<img src="photos/${person.id}.png" alt="${person.fullName}" style="width:100%; height:100%; object-fit:cover; border-radius:36px;" onerror="this.style.display='none'; this.parentElement.innerHTML = \`<div class='photo-stub-large' style='display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; height:100%; background:repeating-linear-gradient(45deg,#1e2335,#1e2335 20px,#171c2c 20px,#171c2c 40px); border-radius:36px;'><i class='fas fa-user-circle' style='font-size:4rem; color:#c9aa44;'></i><span style='background:rgba(0,0,0,0.7); padding:4px 12px; border-radius:30px; margin-top:10px;'>ФОТОГРАФИЯ</span></div>\`;">`;
+        modalBody.innerHTML = `
+            <div class="photo-area">
+                <div class="photo-placeholder">${photoHtml}</div>
+                <div class="photo-caption"><i class="fas fa-camera-retro"></i> ${person.fullName}</div>
+            </div>
+            <div class="info-area">
+                <div class="name-detail">${person.fullName}</div>
+                <div class="detail-meta">
+                    <span class="meta-tag"><i class="fas fa-calendar-alt"></i> ${person.born}</span>
+                    <span class="meta-tag"><i class="fas fa-history"></i> ${person.status}</span>
+                    ${extraHtml}
+                </div>
+                <div class="detail-bio"><i class="fas fa-quote-left" style="color:#e6b422; margin-right:8px;"></i> ${memoryHtml}</div>
+                <div class="detail-meta"><span class="meta-tag"><i class="fas fa-feather-alt"></i> свидетельство истории</span><span class="meta-tag"><i class="fas fa-heartbeat"></i> Дети войны — наша совесть</span></div>
+            </div>
+        `;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('personModal');
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderGrid();
+        const modal = document.getElementById('personModal');
+        const closeBtn = modal.querySelector('.close-modal');
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+    });
+</script>
+</body>
+</html>
